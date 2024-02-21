@@ -82,9 +82,13 @@ struct PointWrapper: Hashable {
     let x: CGFloat
     let y: CGFloat
     
+   // let point: CGPoint
+    
     init(_ point: CGPoint) {
+       // self.point = point
         self.x = point.x
         self.y = point.y
+    
     }
 }
 
