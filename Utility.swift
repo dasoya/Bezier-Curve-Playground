@@ -10,7 +10,31 @@ import SwiftUI
 
 struct Utility{
     
+    func clampPosition(_ position: CGPoint) -> CGPoint {
+        var x = position.x
+        var y = position.y
+
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
+
+        x = max(0, min(x, screenWidth))
+        
+        y = max(0, min(y, screenHeight))
+
+        return CGPoint(x: x, y: y)
+    }
     
+    func findSymmetricPoint(from pointA: CGPoint, to pointB: CGPoint) -> CGPoint {
+
+        _ = CGPoint(x: (pointA.x + pointB.x) / 2, y: (pointA.y + pointB.y) / 2)
+
+        let vectorAB = CGPoint(x: pointB.x - pointA.x, y: pointB.y - pointA.y)
+        
+        let symmetricPoint = CGPoint(x: pointA.x + 2 * vectorAB.x, y: pointA.y + 2 * vectorAB.y)
+        
+        return symmetricPoint
+    }
+
     
     func getPointOnBezierCurve(points : [CGPoint], t: CGFloat) -> CGPoint {
         

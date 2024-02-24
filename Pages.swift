@@ -13,7 +13,7 @@ struct PageView: View {
     @State var finalPage = 0
     @State var hideButton = false
     @Binding var columnVisibility: NavigationSplitViewVisibility
-   
+    
     let finalPages = [1,4,1,1,1,1]
     var body: some View {
         VStack {
@@ -22,22 +22,32 @@ struct PageView: View {
                     page = 0
                 })
             
-                switch selection {
-                    case 0:
-                        LongerCurveView()
-                    case 1:
-                        LearningView()
-                        
-                    default:
-                        Text("hello \(page)")
-                }
+            switch selection {
+            case 0:
+               WelcomeAnimationView()
+                
+            case 1:
+                LearningView()
+                
+            case 2:
+                LongerCurveMainView()
+                
+            //case 3:
+                //LongerCurveMainView()
+                
+            case 4:
+                PlaygroundView()
+                
+            default:
+                Text("Hi You meet the Bug >3<")
+            }
             
         }
         .onChange(of: selection, perform: { _ in
             page = 0
         })
         .toolbar(content: {
-         
+            
             
             ToolbarItem(placement: .bottomBar,content: {
                 if finalPage != page && hideButton == false {
@@ -56,7 +66,7 @@ struct PageView: View {
                                 selection! += 1
                                 page = 0
                             }
-                           
+                            
                         }, label: {
                             Label("Complete Section", systemImage: "checkmark")
                         })

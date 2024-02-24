@@ -40,7 +40,7 @@ struct ExplainTextView: View {
                             .position(CGPoint(x: 115.0, y: 50.0))
                     }
                     .opacity(self.index > 0 ? 1 : 0)
-                    .animation(.easeInOut(duration: 0.5))
+                    .animation(.easeInOut(duration: 0.5), value: true)
                   
 
             Text("if t = .25 then we compute a point   25% of the way going from P1 to P2, and another 25% of the way going from P2 to P3.")
@@ -54,9 +54,9 @@ struct ExplainTextView: View {
                         
                     }
                     .opacity(self.index > 1 ? 1 : 0)
-                    .animation(.easeInOut(duration: 0.5))
+                    .animation(.easeInOut(duration: 0.5), value: true)
             
-            Text("3️⃣ Recursively, do the same for the resulting points. comput t    points \n between Q1    and Q2   .")
+            Text("3️⃣ Recursively, do the same for the resulting points. comput t    point \n between Q1    and Q2   .")
                     .font(.title)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     //.lineLimit(1)
@@ -79,13 +79,13 @@ struct ExplainTextView: View {
                         
                     }
                     .opacity(self.index > 2 ? 1 : 0)
-                    .animation(.easeInOut(duration: 0.5))
+                    .animation(.easeInOut(duration: 0.5), value: true)
             
             Text("4️⃣ Finally the positions of that blue point make a curve.")
                     .font(.title)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .opacity(self.index > 3 ? 1 : 0)
-                    .animation(.easeInOut(duration: 0.5))
+                    .animation(.easeInOut(duration: 0.5), value: true)
                
             
             

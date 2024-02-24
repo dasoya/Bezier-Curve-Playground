@@ -94,7 +94,7 @@ struct BezierTutorialView: View {
                         path.addLine(to: point)
                     }
                 }
-                .stroke(colors[2], lineWidth: 2)
+                .stroke(colors[2], lineWidth: 4)
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .opacity(self.stepIndex >= 4 ? 1 : 0)
                 .animation(.easeInOut(duration: 0.5))
