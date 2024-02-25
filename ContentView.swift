@@ -18,7 +18,12 @@ struct ContentView: View {
         }, detail: {
             PageView(selection: $detailSelection, columnVisibility: $columnVisibility)
                 .onChange(of: detailSelection, perform: { _ in
-                    columnVisibility = .detailOnly
+                    
+                    if detailSelection != 0 && detailSelection != 4 {
+                        columnVisibility = .detailOnly
+                    }else {
+                        columnVisibility = .doubleColumn
+                    }
                 })
         })
     }

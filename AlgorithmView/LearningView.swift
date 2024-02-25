@@ -10,7 +10,7 @@ import CoreGraphics
 
 struct LearningView: View {
     
-    @State var stepIndex = 0
+    @Binding var stepIndex : Int
     @State private var tappable: Bool = true
     
     var body: some View {
@@ -24,7 +24,8 @@ struct LearningView: View {
                     .padding(.top,150)
                 
                Text("Try Sliding!")
-                   .font(.title)
+                   .font(.largeTitle)
+                   .bold()
                    .padding(.top,-100)
                    .padding(.bottom,100)
                    .opacity(self.stepIndex == 1 ? 1 : 0)
@@ -40,8 +41,10 @@ struct LearningView: View {
             .edgesIgnoringSafeArea(.all)
             .onTapGesture {
                 
-                if(self.tappable&&self.stepIndex != 1){
-                    stepIndex += 1
+                if(self.stepIndex != 1 && self.stepIndex != 4 ){
+                   stepIndex += 1
+                }else{
+                    self.tappable = false
                 }
                 
                 //self.tappable = false

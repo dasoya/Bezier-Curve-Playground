@@ -1,36 +1,30 @@
 //
-//  Slider.swift
+//  SliderForAngle.swift
 //  2024challenge
 //
-//  Created by dasoya on 2/10/24.
+//  Created by dasoya on 2/25/24.
 //
 
 import SwiftUI
 
-struct Slider: View {
-    
-    @State var width : CGFloat = 0
-    let totalWidth = 400.0 
+struct SliderForInt: View {
+    @State var width : CGFloat = 400.0
+    let totalWidth = 400.0
     let padding = UIScreen.main.bounds.width - 400.0 //60
+    @Binding var maxValue : Int;
+    @Binding var minValue : Int;
+    @Binding var name : String;
     
-    
-    @Binding var t : CGFloat;
-    
-
-       init(t: Binding<CGFloat>) {
-           self._t = t
-       }
+    @Binding var t : Int;
     
     var body: some View {
         
         VStack{
             
-            Text("t \(self.getValue(val: t))")
+            Text("\(name) \(t)")
                 .font(.title)
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
             
-        
-                
             ZStack(alignment: .leading){
                 
                 Rectangle()
@@ -60,7 +54,8 @@ struct Slider: View {
                                         else if (x > self.totalWidth - 5) {x = self.totalWidth}
                                         
                                         self.width = x
-                                        t = self.width/self.totalWidth
+                                        self.t = Int(minValue) + Int(self.width/self.totalWidth * Double(self.maxValue-self.minValue))
+                                                
                                     }                                })
                         )
                     
@@ -69,13 +64,5 @@ struct Slider: View {
         }.padding(30)
         
     }
-    
-    func getValue(val: CGFloat)->String{
-        return String(format: "%.2f",val)
-    }
-}
 
-//#Preview {
-//    @State var t: CGFloat = 0
-//    Slider(t: $t)
-//}
+}

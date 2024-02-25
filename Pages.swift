@@ -14,32 +14,32 @@ struct PageView: View {
     @State var hideButton = false
     @Binding var columnVisibility: NavigationSplitViewVisibility
     
-    let finalPages = [1,4,1,1,1,1]
+    let finalPages = [0,4,1,0,0]
     var body: some View {
         VStack {
             EmptyView()
                 .onChange(of: selection, perform: { _ in
                     page = 0
+                    finalPage = finalPages[selection!]
                 })
             
             switch selection {
             case 0:
                WelcomeAnimationView()
-                
+    
             case 1:
-                LearningView()
-                
+                LearningView(stepIndex: $page)
             case 2:
-                LongerCurveMainView()
+                LongerCurveMainView(stepIndex: $page)
                 
-            //case 3:
-                //LongerCurveMainView()
+            case 3:
+                Bezier3DCurveView()
                 
             case 4:
-                PlaygroundView()
+                PlaygroundMainView()
                 
             default:
-                Text("Hi You meet the Bug >3<")
+                Text("Hi You meet a Bug >3<")
             }
             
         }
@@ -49,26 +49,33 @@ struct PageView: View {
         .toolbar(content: {
             
             
-            ToolbarItem(placement: .bottomBar,content: {
+            ToolbarItem(placement: .bottomBar ,content: {
+          
+               
                 if finalPage != page && hideButton == false {
                     Button(action: {
-                        page += 1
+                        if(selection==1 && page == 1 ){
+                            
+                        }
+                        else { page += 1 }
+                   
                     }, label: {
                         Label("Forward", systemImage: "arrow.forward")
                     })
                     .buttonStyle(.bordered)
                     .buttonBorderShape(.capsule)
-                    .tint((page == 0) ? .white : .blue)
+
+                    
                 } else if hideButton == false {
-                    if page < 6 {
+                    if selection! < 4{
                         Button(action: {
-                            if selection != 5 {
+                            
                                 selection! += 1
                                 page = 0
-                            }
+                            
                             
                         }, label: {
-                            Label("Complete Section", systemImage: "checkmark")
+                            Label("Complete", systemImage: "checkmark")
                         })
                         .buttonStyle(.bordered)
                         .buttonBorderShape(.capsule)

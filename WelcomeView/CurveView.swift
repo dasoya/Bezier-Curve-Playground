@@ -1,31 +1,17 @@
 //
-//  LongerCurveView.swift
+//  CurveView.swift
 //  2024challenge
 //
-//  Created by dasoya on 2/21/24.
+//  Created by dasoya on 2/24/24.
 //
 
 import SwiftUI
 
-struct LongerCurveView: View {
-    
+struct CurveView: View {
     let utility = Utility()
     
-    
-    @State private var controlPoints: [CGPoint] = [
+    @Binding var controlPoints: [CGPoint]
         
-        CGPoint(x: 200, y: 350),
-        CGPoint(x: 250, y: 50),
-        CGPoint(x: 350, y: 100),
-        CGPoint(x: 400, y: 250),
-        CGPoint(x: 500, y: 50),
-        CGPoint(x: 550, y: 450),
-        CGPoint(x: 600, y: 150)
-        
-    ]
-    
-    
-    
     var BezierCurvePoints: [CGPoint] {
         
         let controlPoints1 : [CGPoint] = Array(controlPoints.prefix(4))
@@ -34,14 +20,39 @@ struct LongerCurveView: View {
     
     var BezierCurvePoints2: [CGPoint] {
         
-        
-        let controlPoints2 : [CGPoint] = Array(controlPoints.suffix(from: 3))
+        let controlPoints2 : [CGPoint] = Array(controlPoints[3..<7])
         return utility.getPointsOnBezierCurve(points: controlPoints2, numPoints: 50)
     }
     
     
-    @State var show : [CGFloat] = [0.0,0.0,0.0,0.0,0.0]
+    var totalBezierCurvePoints: [CGPoint] {
+        
+        return BezierCurvePoints + BezierCurvePoints2
+        
+    }
+    
+    @State var drawPath = 0.0
     @State private var isLocked: Bool = true
+    @State private var ishidden: Bool = true
+    @State private var isAnimating: Bool = false
+    @State private var isPathAnimating: Bool = false
+    @State private var isFirstAnimating: Bool = false
+    
+    let gradient = LinearGradient(gradient: Gradient(colors: [.blue, .red]), startPoint: .leading, endPoint: .trailing)
+    
+    func disappear(){
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            drawPath = 0
+            isAnimating = true
+            isFirstAnimating = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.1) {
+            isAnimating = false
+            isFirstAnimating = false
+        }
+    }
     
     var body: some View {
         
@@ -56,15 +67,6 @@ struct LongerCurveView: View {
                         .position((CGPoint(x: controlPoints[index].x, y: controlPoints[index].y)))
                         .foregroundColor(.gray)
                         .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
-                        .onAppear{
-                            
-                            self.controlPoints[4] =  utility.findSymmetricPoint(from:    self.controlPoints[2], to: self.controlPoints[3])
-                            
-                            self.controlPoints[5] =  utility.findSymmetricPoint(from:    self.controlPoints[1], to: self.controlPoints[3])
-                            self.controlPoints[6] =  utility.findSymmetricPoint(from:    self.controlPoints[0], to: self.controlPoints[3])
-                            
-                            
-                        }
                         .gesture(
                             
                             DragGesture()
@@ -92,7 +94,7 @@ struct LongerCurveView: View {
                     
                 }
                 
-            }
+            }.opacity(ishidden ? 0 : 1)
             
             //Paths between points
             GeometryReader { geometry in
@@ -103,60 +105,50 @@ struct LongerCurveView: View {
                     for point in controlPoints.dropFirst() {
                         path.addLine(to: point)
                     }
-                }
-                
-                .stroke(.gray, lineWidth: 2)
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                
-            }
-            
-            
-            
-            //First Bezier Curve
-            GeometryReader { geometry in
-                Path { path in
-                    path.move(to: BezierCurvePoints[0])
-                    for point in BezierCurvePoints.dropFirst() {
-                        path.addLine(to: point)
-                    }
-                }
-                .stroke(.orange, lineWidth: 4)
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                
-            }
-            
-            //Second Bezier Curve
-            GeometryReader { geometry in
-                Path { path in
-                    path.move(to: BezierCurvePoints2[0])
-                    for point in BezierCurvePoints2.dropFirst() {
-                        path.addLine(to: point)
-                    }
-                }
-                .stroke(.pink, lineWidth: 4)
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                
-            }
-            
-            
-            
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                
-                
-                Toggle(isOn: $isLocked) {
-                    Text("Lock P3 & P5")
-                        .font(.title3)
+                    
                     
                 }
-                .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-                .padding()
+                .stroke(.gray, lineWidth: 2)
+                .opacity(ishidden ? 0 : 1)
+                .frame(width: geometry.size.width, height: geometry.size.height)
+              
+                
+                //A Long Curve for animating
+                Path { path in
+                    path.move(to: totalBezierCurvePoints[0])
+                    for point in totalBezierCurvePoints.dropFirst() {
+                        path.addLine(to: point)
+                    }
+                }
+                .trim(from: 0, to: drawPath)
+                .stroke(gradient, lineWidth: 4)
+                .animation(.easeInOut(duration: 3).delay(0.4), value: drawPath)
+                .frame(width: geometry.size.width, height: geometry.size.height)
+               
+               
+               
+            }.onAppear{
+                
+              
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.ishidden = true
+                    drawPath = 1
+                    isAnimating = true
+                    isFirstAnimating = true
+                }
+//
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
+                    isAnimating = false
+                    isFirstAnimating = false
+                }
             }
+            
+            
+
         }
+       
+        
     }
 }
 
-#Preview {
-    LongerCurveView()
-}

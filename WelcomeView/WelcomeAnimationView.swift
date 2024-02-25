@@ -12,13 +12,14 @@ struct WelcomeAnimationView: View {
     @State var heartArray1 = array1.map { CGPoint(x: $0.0, y: $0.1) }
     @State var heartArray2 = array2.map { CGPoint(x: $0.0, y: $0.1) }
     @State var heartArray3 = array3.map { CGPoint(x: $0.0, y: $0.1) }
-
+  
     
     var body: some View {
         ZStack{
           
             CurveView(controlPoints: $heartArray2)
             CurveView(controlPoints: $heartArray3)
+            
             VStack{
                 
                 Text("Welcome to Curve World!")
