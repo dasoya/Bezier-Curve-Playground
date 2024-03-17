@@ -155,6 +155,7 @@ struct LongerCurveView: View {
                 }
                 .toggleStyle(SwitchToggleStyle(tint: .accentColor))
                 .padding()
+                .padding(.top,30)
             }
         }
     }

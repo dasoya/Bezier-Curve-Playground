@@ -11,7 +11,6 @@ struct PlaygroundView: View {
     
     let utility = Utility()
     
-    @ObservedObject  var viewModel = PlaygroundViewModel()
     
     @State private var controlPoints: [CGPoint] = [
         
@@ -59,25 +58,7 @@ struct PlaygroundView: View {
     
     let gradient = LinearGradient(gradient: Gradient(colors: [.blue, .red]), startPoint: .leading, endPoint: .trailing)
     
-    func animate(){
-        
-        if(self.isAnimated){
-            self.ishidden = true
-            self.drawPath = 0
-            self.isAnimating = true
-            self.isFirstAnimating = true
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
-                self.isFirstAnimating = false
-                self.drawPath = 1 }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
-                self.isAnimating = false
-                self.ishidden = false
-                self.isAnimated = false
-            }
-        }
-    }
+
     var body: some View {
         
         ZStack{
@@ -97,7 +78,7 @@ struct PlaygroundView: View {
                     }
                     .toggleStyle(SwitchToggleStyle(tint: .accentColor))
                 }.frame(width: 200)
-                
+                    .background(.white)
                     .position(x: geometry.size.width - 150 ,y: 25)
             }
             
@@ -212,9 +193,7 @@ struct PlaygroundView: View {
             
             
         }
-        .onAppear{
-             animate()
-        }
+        
         .toolbar{
             
 //                        ToolbarItem(placement: .bottomBar) {

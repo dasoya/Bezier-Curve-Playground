@@ -40,22 +40,21 @@ struct LongerCurveMainView: View {
                     
                   
                 case 1:
-                Text("Notice the curve made by P1,P2,P3,P4 is a separate curve from the one made by P4,P5,P6,P7. It's just when P3 and P5 are on exact opposite sides of    P4 together they look like one continuous curve. Most apps will then usually give you the option to stop locking them together so you can get a sharp corner. Un-check     the lock checkbox then drag P3 or P5 and it will become even more clear they are separate curves.")
+                Text("Notice the curve made by P1,P2,P3,P4 is a separate curve from the one made by P4,P5,P6,P7. It's just when P3 and P5 are on exact opposite sides of    P4 together they look like one continuous curve. \n Most apps will then usually give you the option to stop locking them together so you can get a sharp corner. Un-check    the lock checkbox then drag P3 or P5 and it will become even more clear they are separate curves.")
                     .font(.title2)
-                    //.fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .padding(.top,50)
                     .frame(width: 850)
                     .overlay {
                         Text("Un-check")
-                            .font(.title2)
+                            .font(.title3)
                             .highlight()
-                            .position(CGPoint(x: 560.0, y: 150.0))
+                            .position(CGPoint(x: 240.0, y: 178.0))
                     }
                     .overlay {
                         Text("P4")
                             .font(.title2)
                             .highlight()
-                            .position(CGPoint(x: 670.0, y: 90.0))
+                            .position(CGPoint(x: 671.0, y: 92.0))
                     }
         
                     

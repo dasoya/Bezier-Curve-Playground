@@ -9,44 +9,11 @@ import SwiftUI
 
 struct PlaygroundMainView: View {
     
-    let maxCurves = 6
+    let maxCurves = 5
     @State var focusedIndex = 0
     @State var numOfcurves = 1
     @State var isAnimating = false
     @State var curveViews : [PlaygroundView] = []
-    
-    @ObservedObject var viewModel = PlaygroundViewModel()
-//    func createPlaygroundView(isFocused: Bool) -> PlaygroundView {
-//           let playgroundView = PlaygroundView(isFocused: isFocused, isAnimated: $isAnimating)
-//        
-//          curveViews.append(playgroundView)
-//           //playgroundView.animate() // View 생성 후 함수 호출
-//           return playgroundView
-//       }
-    
-    func animatePlaygroundView() {
-        
-        for v in curveViews {
-            
-            v.animate()
-            v.isAnimating = true
-            v.ishidden = true
-            v.drawPath = 0
-            v.isFirstAnimating = true
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
-                v.isFirstAnimating = false
-                v.drawPath = 1 }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
-                v.isAnimating = false
-                v.ishidden = false
-               v.isAnimated = false
-           }
-        }
-           
-           
-    }
     
     
     var body: some View {
@@ -56,6 +23,7 @@ struct PlaygroundMainView: View {
             ForEach(0..<self.numOfcurves, id: \.self){ index in
                 
                 PlaygroundView(isFocused : self.focusedIndex == index, index: index, isAnimated: $isAnimating)
+                    .zIndex(self.focusedIndex == index ? 1 : 0)
                 
             }
             
@@ -85,9 +53,8 @@ struct PlaygroundMainView: View {
                 
                 
                 Button{
-                    if(self.maxCurves >= self.numOfcurves){
+                    if(self.maxCurves > self.numOfcurves){
                         self.numOfcurves += 1
-//                        createPlaygroundView(isFocused : true)
                     }
                 } label: {
                     
@@ -111,29 +78,6 @@ struct PlaygroundMainView: View {
                 Spacer()
             }
                               
-            ToolbarItem(placement: .bottomBar) {
-                
-            
-                Button {
-             
-                    self.isAnimating = true
-                   // animatePlaygroundView()
-                    viewModel.isAnimating = true
-                } label: {
-                    Text("Animate")
-                        .font(.title)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding(EdgeInsets(top: 3, leading: 9, bottom: 3, trailing: 9))
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.blue)
-                        )
-                }
-                
-            }
-            
-
             
         }
         

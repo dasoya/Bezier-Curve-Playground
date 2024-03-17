@@ -8,13 +8,13 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "2024challenge",
+    name: "Bezier Curves",
     platforms: [
         .iOS("16.0")
     ],
     products: [
         .iOSApplication(
-            name: "2024challenge",
+            name: "Bezier Curves",
             targets: ["AppModule"],
             bundleIdentifier: "favorite.-024challenge",
             displayVersion: "1.0",
