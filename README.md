@@ -1,4 +1,4 @@
-**2024 Swift Student Challenge Project!**
+**2024 Swift Student Challenge Winner Project!**
 
 ![KakaoTalk_20240318_232723665](https://github.com/dasoya/Bezier-Curve-Playground/assets/66422476/79d5ddcd-f06d-4513-aa94-5661029a7303)
 
